@@ -1,85 +1,158 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Expense Tracker API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+An API to manage and track your expenses with features to categorize and filter them based on timeframes or categories.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Features
 
-## Description
+- Create, update, delete, and retrieve expenses.
+- Filter expenses by date (past week, past month, or last three months).
+- Filter expenses by category (e.g., Groceries, Electronics, Health).
+- Authentication using JWT to secure API access.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Requirements
 
-## Project setup
+- Node.js
+- NestJS
+- PostgreSQL (or any other Prisma-supported database)
 
-```bash
-$ npm install
-```
+## Installation
 
-## Compile and run the project
+1. Clone the repository:
 
-```bash
-# development
-$ npm run start
+   ```bash
+   git clone https://github.com/your-repo/expense-tracker.git
+   cd expense-tracker
+   ```
 
-# watch mode
-$ npm run start:dev
+2. Install the dependencies:
 
-# production mode
-$ npm run start:prod
-```
+   ```bash
+   npm install
+   ```
 
-## Run tests
+3. Set up environment variables. Create a `.env` file in the root directory and configure your database URL, JWT secret, etc.:
 
-```bash
-# unit tests
-$ npm run test
+   ```bash
+   DATABASE_URL=your_database_url
+   JWT_SECRET=your_jwt_secret
+   ```
 
-# e2e tests
-$ npm run test:e2e
+4. Run database migrations:
 
-# test coverage
-$ npm run test:cov
-```
+   ```bash
+   npx prisma migrate dev
+   ```
 
-## Resources
+5. Start the server:
 
-Check out a few resources that may come in handy when working with NestJS:
+   ```bash
+   npm run start:dev
+   ```
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+## API Endpoints
 
-## Support
+### Authentication
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+#### Register
 
-## Stay in touch
+- **URL:** `/auth/signup`
+- **Method:** `POST`
+- **Body:**
+  ```json
+  {
+    "email": "user@example.com",
+    "password": "yourpassword"
+  }
+  ```
+- **Description:** Register a new user.
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+#### Login
+
+- **URL:** `/auth/signin`
+- **Method:** `POST`
+- **Body:**
+  ```json
+  {
+    "email": "user@example.com",
+    "password": "yourpassword"
+  }
+  ```
+- **Description:** Log in and receive a JWT token for authenticated requests.
+
+### Expenses
+
+#### Create Expense
+
+- **URL:** `/expenses/create`
+- **Method:** `POST`
+- **Headers:** `Authorization: Bearer <JWT Token>`
+- **Body:**
+  ```json
+  {
+    "amount": 5000,
+    "description": "Laptop stand",
+    "category": "Electronics",
+    "date": "2024-10-08"
+  }
+  ```
+- **Description:** Create a new expense entry.
+
+#### Get Expenses by Category
+
+- **URL:** `/expenses/:category`
+- **Method:** `GET`
+- **Headers:** `Authorization: Bearer <JWT Token>`
+- **Params:**
+  - `category`: One of `Groceries`, `Leisure`, `Electronics`, `Utilities`, `Clothing`, `Health`, `Others`
+- **Description:** Retrieve all expenses for a specific category.
+
+#### Get All Expenses
+
+- **URL:** `/expenses`
+- **Method:** `GET`
+- **Headers:** `Authorization: Bearer <JWT Token>`
+- **Description:** Retrieve all expenses.
+
+#### Filter Expenses by Timeframe
+
+- **URL:** `/expenses`
+- **Method:** `GET`
+- **Headers:** `Authorization: Bearer <JWT Token>`
+- **Query Params:**
+  - `timeframe`: `week`, `month`, `3months`
+- **Description:** Filter expenses by timeframes such as past week, month, or last three months.
+
+#### Update Expense
+
+- **URL:** `/expenses/:id`
+- **Method:** `PUT`
+- **Headers:** `Authorization: Bearer <JWT Token>`
+- **Body:**
+  ```json
+  {
+    "amount": 6000,
+    "description": "Updated description",
+    "category": "Groceries"
+  }
+  ```
+- **Description:** Update an existing expense by its ID.
+
+#### Delete Expense
+
+- **URL:** `/expenses/:id`
+- **Method:** `DELETE`
+- **Headers:** `Authorization: Bearer <JWT Token>`
+- **Description:** Delete an expense by its ID.
+
+## Expense Filters
+
+- Filter expenses by date (past week, past month, or custom date range).
+- Filter expenses by category (e.g., Groceries, Leisure, Electronics).
 
 ## License
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Credits
+
+This project idea is taken from [roadmap.sh](https://roadmap.sh/backend/project-ideas#4-expense-tracker-api).
