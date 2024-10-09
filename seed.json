@@ -1,4 +1,10 @@
-{
+[{
     "password": "password123",
     "email": "amainooti@gmail.com"
   }
+,
+  {
+    "amount": 5000,
+    "category": "Electronics",
+    "description": "Laptop stand to improve my work experience"
+  }]

@@ -1,4 +1,4 @@
-import { Categories } from '@prisma/client';
+import { Categories } from '../types/index';
 import {
   IsEnum,
   IsNotEmpty,
@@ -17,7 +17,6 @@ export class CreateExpense {
   @IsOptional()
   description?: string;
 
-  @IsString()
   @IsNotEmpty()
   @IsEnum(Categories)
   category: Categories;
