@@ -155,4 +155,4 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ## Credits
 
-This project idea is taken from [roadmap.sh](https://roadmap.sh/backend/project-ideas#4-expense-tracker-api).
+This project idea is taken from [roadmap.sh](https://roadmap.sh/projects/expense-tracker-api).
